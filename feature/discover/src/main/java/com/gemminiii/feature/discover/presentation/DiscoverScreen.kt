@@ -33,6 +33,11 @@ fun DiscoverScreen(
 
     Box(modifier = Modifier.fillMaxSize()){
         when(val currentState = state){
+            is DiscoverUiState.Start -> {
+                Button(onClick = { viewModel.loadMovies(DiscoverFilters()) }) {
+                    Text("Поиск")
+                }
+            }
             is DiscoverUiState.Loading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
