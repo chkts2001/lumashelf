@@ -75,6 +75,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("com.google.dagger:hilt-android:2.58")
     implementation("androidx.navigation:navigation-compose:2.8.5")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     ksp("com.google.dagger:hilt-android-compiler:2.58")
     //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
