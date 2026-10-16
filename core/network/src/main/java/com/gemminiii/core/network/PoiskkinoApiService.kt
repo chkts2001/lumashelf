@@ -18,6 +18,12 @@ interface PoiskkinoApiService {
     suspend fun getMovieDetails(
         @Path("id") id: Int
     ): MovieDto
+
+    @GET("v1.5/movie/search")
+    suspend fun searchMovies(
+        @Query("query") query: String,
+        @Query("limit") limit: Int = 20
+    ): MovieListResponse
 }
 
 @kotlinx.serialization.Serializable
