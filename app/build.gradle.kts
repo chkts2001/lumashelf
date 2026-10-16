@@ -66,6 +66,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":core:database"))
+    implementation(project(":core:domain"))
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-kotlinx-serialization:3.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
@@ -73,6 +74,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("com.google.dagger:hilt-android:2.58")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
     ksp("com.google.dagger:hilt-android-compiler:2.58")
     //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
