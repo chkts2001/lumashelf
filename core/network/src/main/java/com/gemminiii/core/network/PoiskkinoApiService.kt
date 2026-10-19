@@ -24,6 +24,9 @@ interface PoiskkinoApiService {
         @Query("query") query: String,
         @Query("limit") limit: Int = 20
     ): MovieListResponse
+
+    @GET("v1.5/movie/random")
+    suspend fun getRandomMovie(): MovieDto
 }
 
 @kotlinx.serialization.Serializable

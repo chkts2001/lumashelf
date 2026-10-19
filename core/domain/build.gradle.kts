@@ -13,4 +13,5 @@ kotlin {
 }
 dependencies {
     implementation("javax.inject:javax.inject:1")
+    implementation("androidx.compose.runtime:runtime:1.7.0")
 }

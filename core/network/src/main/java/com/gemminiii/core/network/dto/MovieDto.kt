@@ -12,7 +12,8 @@ data class MovieDto(
     val rating: RatingDto? = null,
     val year: Int? = null,
     val genres: List<GenreDto>? = null,
-    @SerialName("movieLength") val movieLength: Int? = null
+    @SerialName("movieLength") val movieLength: Int? = null,
+    val countries: List<CountryDto>? = null
 )
 
 @Serializable
@@ -23,3 +24,6 @@ data class RatingDto(val kp: Double? = null, val imdb: Double? = null)
 
 @Serializable
 data class GenreDto(val name: String? = null)
+
+@Serializable
+data class CountryDto(val name: String? = null, val id: Int? = null)

@@ -26,6 +26,21 @@ class MovieRepositoryImpl @Inject constructor(
         val response = api.searchMovies(query)
         return response.docs.map { it.toDomain() }
     }
+
+    override suspend fun getRandomMovies(count: Int): List<Movie> {
+        val movies = mutableListOf<Movie>()
+        repeat(count){
+            try{
+                val movie = api.getRandomMovie().toDomain()
+                if(movies.none {it.id == movie.id}){
+                    movies.add(movie)
+                }
+            }catch(e: Exception){
+
+            }
+        }
+        return movies
+    }
 }
 private fun MovieDto.toDomain() = Movie(
     id = id,
@@ -36,5 +51,6 @@ private fun MovieDto.toDomain() = Movie(
     rating = rating?.kp ?: 0.0,
     year = year ?: 0,
     genres = genres?.mapNotNull { it.name } ?: emptyList(),
-    durationMinutes = movieLength
+    durationMinutes = movieLength,
+    countries = countries?.mapNotNull { it.name } ?: emptyList()
 )
