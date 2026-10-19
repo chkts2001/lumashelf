@@ -1,4 +1,5 @@
-package com.gemminiii.feature.discover.presentation
+package com.gemminiii.feature.discover.presentation.discover
+
 import com.gemminiii.core.domain.model.Movie
 
 sealed interface DiscoverUiState {
