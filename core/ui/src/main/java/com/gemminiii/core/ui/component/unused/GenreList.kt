@@ -1,4 +1,4 @@
-package com.gemminiii.core.ui.component
+package com.gemminiii.core.ui.component.unused
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

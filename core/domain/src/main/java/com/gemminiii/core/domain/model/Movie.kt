@@ -9,9 +9,12 @@ data class Movie(
     val originalTitle: String,
     val description: String?,
     val posterUrl: String?,
-    val rating: Double,
+    val ratingKp: Double?,
+    val ratingImdb: Double?,
     val year: Int,
     val genres: List<String>,
     val durationMinutes: Int?,
     val countries: List<String>,
+    val votesKp: Int?,
+    val votesImdb: Int?
 )

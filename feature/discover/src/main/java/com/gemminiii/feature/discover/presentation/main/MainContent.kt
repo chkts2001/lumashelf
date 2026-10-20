@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -61,7 +63,7 @@ fun MainContent(
                             MovieCard(
                                 movie = movie,
                                 onClick = { onMovieClick(movie.id) },
-                                modifier = Modifier.width(160.dp) // фиксированная ширина карточки
+                                modifier = Modifier.width(163.dp).fillMaxHeight(1f) // фиксированная ширина карточки
                             )
                         }
                     }

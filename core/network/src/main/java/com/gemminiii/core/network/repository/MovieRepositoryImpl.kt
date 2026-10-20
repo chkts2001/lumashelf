@@ -48,9 +48,12 @@ private fun MovieDto.toDomain() = Movie(
     originalTitle = alternativeName ?: name ?: "",
     description = description ?: "Описание остутствует",
     posterUrl = poster?.url,
-    rating = rating?.kp ?: 0.0,
+    ratingKp = rating?.kp ?: 0.0,
+    ratingImdb = rating?.imdb ?: 0.0,
     year = year ?: 0,
     genres = genres?.mapNotNull { it.name } ?: emptyList(),
     durationMinutes = movieLength,
-    countries = countries?.mapNotNull { it.name } ?: emptyList()
+    countries = countries?.mapNotNull { it.name } ?: emptyList(),
+    votesKp = votes?.kp ?: 0,
+    votesImdb = votes?.imdb ?: 0
 )
