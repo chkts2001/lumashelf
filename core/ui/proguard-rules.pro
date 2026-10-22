@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class androidx.compose.foundation.gestures.AnchoredDraggableState { *; }
+-keep class androidx.compose.foundation.gestures.AnchoredDraggableState$* { *; }
+-keepclassmembers class androidx.compose.foundation.gestures.AnchoredDraggableState {
+    <init>(...);
+}
