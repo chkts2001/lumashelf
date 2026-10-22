@@ -108,7 +108,7 @@ class DiscoverViewModel @Inject constructor(
     )
 
     init{
-        loadMovies(DiscoverFilters())
+        loadMovies(DiscoverFilters(ratingFrom = 5.0, ratingTo = 10.0))
         observeQuery()
     }
 
@@ -123,7 +123,7 @@ class DiscoverViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collect { q ->
                     if(q.isBlank()){
-                        loadMovies(DiscoverFilters())
+                        loadMovies(DiscoverFilters(ratingFrom = 5.0, ratingTo = 10.0))
                     }else{
                         searchMoviesVm(q)
                     }
