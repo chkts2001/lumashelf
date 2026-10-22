@@ -10,7 +10,7 @@ interface PoiskkinoApiService {
     suspend fun discoverMovies(
         @Query("genres.name") genre: String? = null,
         @Query("year") year: String? = null,
-        @Query("rating") rating: String? = null,
+        @Query("rating.kp") rating: String? = null,
         @Query("limit") limit: Int = 5
     ): MovieListResponse
 
@@ -26,7 +26,9 @@ interface PoiskkinoApiService {
     ): MovieListResponse
 
     @GET("v1.5/movie/random")
-    suspend fun getRandomMovie(): MovieDto
+    suspend fun getRandomMovie(
+        @Query("rating.kp") rating: String? = null
+    ): MovieDto
 }
 
 @kotlinx.serialization.Serializable

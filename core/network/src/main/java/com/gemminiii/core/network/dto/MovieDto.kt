@@ -7,7 +7,7 @@ data class MovieDto(
     val id: Int,
     val name: String? = null,
     @SerialName("alternativeName") val alternativeName: String? = null,
-    val description: String? = null,
+    val shortDescription: String? = null,
     val poster: PosterDto? = null,
     val rating: RatingDto? = null,
     val year: Int? = null,

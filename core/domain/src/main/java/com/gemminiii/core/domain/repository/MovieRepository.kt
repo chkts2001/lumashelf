@@ -7,5 +7,5 @@ interface MovieRepository {
     suspend fun discoverMovies(filters: DiscoverFilters): List<Movie>
     suspend fun getMovieDetails(id: Int): Movie
     suspend fun searchMovies(query: String): List<Movie>
-    suspend fun getRandomMovies(count: Int): List<Movie>
+    suspend fun getRandomMovies(count: Int, filters: DiscoverFilters): List<Movie>
 }

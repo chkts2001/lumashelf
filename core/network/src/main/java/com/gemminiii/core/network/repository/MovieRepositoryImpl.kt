@@ -27,11 +27,13 @@ class MovieRepositoryImpl @Inject constructor(
         return response.docs.map { it.toDomain() }
     }
 
-    override suspend fun getRandomMovies(count: Int): List<Movie> {
+    override suspend fun getRandomMovies(count: Int, filters: DiscoverFilters): List<Movie> {
         val movies = mutableListOf<Movie>()
         repeat(count){
             try{
-                val movie = api.getRandomMovie().toDomain()
+                val movie = api.getRandomMovie(
+                    rating = filters.ratingFrom?.let {"$it-10"}
+                ).toDomain()
                 if(movies.none {it.id == movie.id}){
                     movies.add(movie)
                 }
@@ -46,7 +48,7 @@ private fun MovieDto.toDomain() = Movie(
     id = id,
     title = name ?: alternativeName ?: "Без названия",
     originalTitle = alternativeName ?: name ?: "",
-    description = description ?: "Описание остутствует",
+    description = shortDescription ?: "Описание остутствует",
     posterUrl = poster?.url,
     ratingKp = rating?.kp ?: 0.0,
     ratingImdb = rating?.imdb ?: 0.0,
