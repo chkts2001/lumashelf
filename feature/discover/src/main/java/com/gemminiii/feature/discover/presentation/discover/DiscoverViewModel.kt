@@ -43,7 +43,8 @@ class DiscoverViewModel @Inject constructor(
             year = 1994,
             genres = listOf("драма", "криминал"),
             durationMinutes = 142,
-            countries = listOf("США", "Франция")
+            countries = listOf("США", "Франция"),
+            slogan = "1"
         ),
         Movie(
             id = 2,
@@ -58,7 +59,8 @@ class DiscoverViewModel @Inject constructor(
             year = 1972,
             genres = listOf("драма", "криминал"),
             durationMinutes = 175,
-            countries = listOf("США", "Россия")
+            countries = listOf("США", "Россия"),
+            slogan = "1"
         ),
         Movie(
             id = 3,
@@ -73,7 +75,8 @@ class DiscoverViewModel @Inject constructor(
             year = 2008,
             genres = listOf("боевик", "триллер"),
             durationMinutes = 152,
-            countries = listOf("США", "Италия", "Вьетнам", "Китай", "Германия")
+            countries = listOf("США", "Италия", "Вьетнам", "Китай", "Германия"),
+            slogan = "1"
         ),
         Movie(
             id = 4,
@@ -88,7 +91,8 @@ class DiscoverViewModel @Inject constructor(
             year = 1994,
             genres = listOf("драма", "криминал"),
             durationMinutes = 154,
-            countries = listOf("США")
+            countries = listOf("США"),
+            slogan = "1"
         ),
         Movie(
             id = 5,
@@ -103,7 +107,8 @@ class DiscoverViewModel @Inject constructor(
             year = 1994,
             genres = listOf("драма", "романтика"),
             durationMinutes = 142,
-            countries = listOf("США")
+            countries = listOf("США"),
+            slogan = "1"
         )
     )
 

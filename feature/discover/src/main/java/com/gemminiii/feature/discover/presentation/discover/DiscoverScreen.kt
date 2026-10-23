@@ -1,9 +1,11 @@
 package com.gemminiii.feature.discover.presentation.discover
 
-import com.gemminiii.feature.discover.presentation.main.MainContent
-import com.gemminiii.feature.discover.presentation.search.SearchResultsGrid
+import com.gemminiii.feature.discover.presentation.discover.main.MainContent
+import com.gemminiii.feature.discover.presentation.discover.search.SearchResultsGrid
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,14 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import com.gemminiii.core.domain.model.DiscoverFilters
-import com.gemminiii.feature.discover.presentation.random.RandomMovieViewModel
+import com.gemminiii.feature.discover.presentation.discover.main.random.RandomMovieViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,20 +48,45 @@ fun DiscoverScreen(
     Scaffold { innerPadding ->
 
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            TextField(
+            val interactionSource = remember { MutableInteractionSource() }
+
+            BasicTextField(
                 value = query,
                 onValueChange = viewModel::onQueryChange,
-                placeholder = { Text("Поищем?") },
-                shape = RoundedCornerShape(16.dp),
                 singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
+                textStyle = MaterialTheme.typography.headlineSmall.copy(
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
+                interactionSource = interactionSource,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
-                    .background(Color.Green.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+                    .background(Color.Green.copy(alpha = 0.2f), RoundedCornerShape(12.dp)),
+                decorationBox = { innerTextField ->
+                    TextFieldDefaults.DecorationBox(
+                        value = query,
+                        innerTextField = innerTextField,
+                        enabled = true,
+                        singleLine = true,
+                        visualTransformation = VisualTransformation.None,
+                        interactionSource = interactionSource,
+                        // 🔽 Здесь задаём маленькие внутренние отступы
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        placeholder = {
+                            Text(
+                                text = "Поищем?",
+                                style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp)
+                            )
+                        },
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        )
+                    )
+                }
             )
             if(query.isBlank()) {
                 MainContent(
