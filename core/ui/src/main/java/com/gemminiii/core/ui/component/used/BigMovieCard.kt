@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -87,19 +89,19 @@ fun BigMovieCard(
         modifier = modifier
             .onSizeChanged { cardHeightPx = it.height.toFloat() }
             .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(0.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             // 1. Постер (фон)
             Column {
-                Box(modifier = Modifier.fillMaxWidth().aspectRatio(1.13f)) {
+                Box(modifier = Modifier.fillMaxWidth().aspectRatio(0.92f)) {
                     AsyncImage(
                         model = movie.posterUrl,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize().blur(20.dp)
                     )
-                    Box(modifier = Modifier.padding(4.dp).align(Alignment.TopCenter)) {
+                    Box(modifier = Modifier.padding(top = 10.dp).align(Alignment.TopCenter)) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(movie.posterUrl)
@@ -108,7 +110,7 @@ fun BigMovieCard(
                             contentDescription = movie.title,
                             contentScale = ContentScale.Fit,
                             modifier = Modifier
-                                .fillMaxWidth(1f / 1.7f)
+                                .fillMaxWidth(1f / 1.705f)
                                 .aspectRatio(2f / 3f)
                                 .clip(RoundedCornerShape(12.dp))
                         )
@@ -125,16 +127,25 @@ fun BigMovieCard(
                     .offset(y = with(density) { state.offset.toDp() }) // ← сдвиг
                     .anchoredDraggable(state, Orientation.Vertical)
                     .background(
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
-                        RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                        MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                        RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                     )
             ) {
-                Box(
-                    modifier = Modifier.onSizeChanged { size ->
-                        infoBlockHeightPx = size.height.toFloat()
+                Column() {
+                    Box(
+                        modifier = Modifier
+                            .background(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f), shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                            .onSizeChanged { size -> infoBlockHeightPx = size.height.toFloat() }
+                    ) {
+                        BigCardShortInfoBlock(movie)
+
                     }
-                ) {
-                    BigCardShortInfoBlock(movie)
+                    Text(
+                        movie.description!!,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(6.dp).fillMaxSize(),
+                        textAlign = TextAlign.Justify
+                    )
                 }
             }
         }
