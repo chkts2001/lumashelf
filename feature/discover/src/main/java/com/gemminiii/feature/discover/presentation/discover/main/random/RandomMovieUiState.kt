@@ -1,4 +1,4 @@
-package com.gemminiii.feature.discover.presentation.random
+package com.gemminiii.feature.discover.presentation.discover.main.random
 
 import android.os.Message
 import com.gemminiii.core.domain.model.Movie

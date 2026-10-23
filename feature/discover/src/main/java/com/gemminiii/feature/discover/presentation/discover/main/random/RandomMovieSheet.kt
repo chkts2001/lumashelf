@@ -1,4 +1,4 @@
-package com.gemminiii.feature.discover.presentation.random
+package com.gemminiii.feature.discover.presentation.discover.main.random
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gemminiii.core.ui.component.used.BigMovieCard
-import com.gemminiii.core.ui.component.used.LittleMovieCard
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -45,7 +43,7 @@ fun RandomMovieBlock(
     Surface(
         modifier = modifier.padding(8.dp),
         tonalElevation = 4.dp,
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(12.dp)
     ) {
         when (state) {
             is RandomMovieUiState.Idle -> {}
@@ -74,7 +72,7 @@ fun RandomMovieBlock(
                             modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(movies[page].description!!, style = MaterialTheme.typography.headlineSmall.copy(fontSize = 18.sp), modifier = Modifier.padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth(), textAlign = TextAlign.Start)
+                            Text("Случайный фильм", style = MaterialTheme.typography.headlineSmall.copy(fontSize = 18.sp), modifier = Modifier.padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth(), textAlign = TextAlign.Start)
                             Box(
                                 modifier = Modifier.weight(1f),
                                 contentAlignment = Alignment.Center
@@ -90,17 +88,17 @@ fun RandomMovieBlock(
                     }
 
                     Row(Modifier.padding(vertical = 8.dp)) {
-                        repeat(movies.size) { i ->
-                            val selected = pagerState.currentPage == i
+                        repeat(movies.size) { page ->
+                            val selected = pagerState.currentPage == page
                             Box(
                                 Modifier
                                     .padding(horizontal = 4.dp)
                                     .clip(CircleShape)
                                     .background(
-                                        if (selected) MaterialTheme.colorScheme.primary
+                                        if (selected) MaterialTheme.colorScheme.onSurface
                                         else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
                                     )
-                                    .size(if (selected) 12.dp else 8.dp)
+                                    .size(if (selected) 8.dp else 6.dp)
                             )
                         }
                     }

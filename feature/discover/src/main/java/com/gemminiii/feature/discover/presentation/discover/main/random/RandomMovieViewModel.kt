@@ -1,4 +1,4 @@
-package com.gemminiii.feature.discover.presentation.random
+package com.gemminiii.feature.discover.presentation.discover.main.random
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -20,7 +20,7 @@ class RandomMovieViewModel @Inject constructor(
     private val _state = MutableStateFlow<RandomMovieUiState>(RandomMovieUiState.Idle)
     val state: StateFlow<RandomMovieUiState> = _state.asStateFlow()
 
-    val countRandomMovies = 3
+    val countRandomMovies = 0
     val debugMovies = listOf(
         Movie(
             id = 1,
@@ -35,7 +35,8 @@ class RandomMovieViewModel @Inject constructor(
             year = 1994,
             genres = listOf("драма", "криминал"),
             durationMinutes = 142,
-            countries = listOf("США", "Франция")
+            countries = listOf("США", "Франция"),
+            slogan = "1"
         ),
         Movie(
             id = 2,
@@ -50,7 +51,8 @@ class RandomMovieViewModel @Inject constructor(
             year = 1972,
             genres = listOf("драма", "криминал"),
             durationMinutes = 175,
-            countries = listOf("США", "Россия")
+            countries = listOf("США", "Россия"),
+            slogan = "1"
         ))
 
 

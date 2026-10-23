@@ -1,4 +1,4 @@
-package com.gemminiii.feature.discover.presentation.search
+package com.gemminiii.feature.discover.presentation.discover.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
