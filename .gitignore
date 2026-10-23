@@ -31,3 +31,4 @@ my-changes.bundle
 .kotlin/errors/errors-1792672182025.log
 .kotlin/errors/errors-1792672535413.log
 .kotlin/errors/errors-1792673973718.log
+*.log
