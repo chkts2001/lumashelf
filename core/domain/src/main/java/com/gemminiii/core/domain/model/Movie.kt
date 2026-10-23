@@ -16,5 +16,6 @@ data class Movie(
     val durationMinutes: Int?,
     val countries: List<String>,
     val votesKp: Int?,
-    val votesImdb: Int?
+    val votesImdb: Int?,
+    val slogan: String?
 )

@@ -48,7 +48,7 @@ private fun MovieDto.toDomain() = Movie(
     id = id,
     title = name ?: alternativeName ?: "Без названия",
     originalTitle = alternativeName ?: name ?: "",
-    description = shortDescription ?: "Описание остутствует",
+    description = description ?: "Описание остутствует",
     posterUrl = poster?.url,
     ratingKp = rating?.kp ?: 0.0,
     ratingImdb = rating?.imdb ?: 0.0,
@@ -57,5 +57,6 @@ private fun MovieDto.toDomain() = Movie(
     durationMinutes = movieLength,
     countries = countries?.mapNotNull { it.name } ?: emptyList(),
     votesKp = votes?.kp ?: 0,
-    votesImdb = votes?.imdb ?: 0
+    votesImdb = votes?.imdb ?: 0,
+    slogan = slogan ?: "пусто"
 )

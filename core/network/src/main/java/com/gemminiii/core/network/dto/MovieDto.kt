@@ -7,14 +7,15 @@ data class MovieDto(
     val id: Int,
     val name: String? = null,
     @SerialName("alternativeName") val alternativeName: String? = null,
-    val shortDescription: String? = null,
+    val description: String? = null,
     val poster: PosterDto? = null,
     val rating: RatingDto? = null,
     val year: Int? = null,
     val genres: List<GenreDto>? = null,
     @SerialName("movieLength") val movieLength: Int? = null,
     val countries: List<CountryDto>? = null,
-    val votes: VotesDto? = null
+    val votes: VotesDto? = null,
+    val slogan: String? = null
 )
 
 @Serializable
