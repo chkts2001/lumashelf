@@ -8,6 +8,6 @@ class SearchMoviesUseCase @Inject constructor(
     private val repository: MovieRepository
 ){
     suspend operator fun invoke(query: String): List<Movie>{
-        return repository.searchMovies(query)
+        return repository.searchMovies(query = query).sortedByDescending { it.ratingKp ?: 0.0 }
     }
 }

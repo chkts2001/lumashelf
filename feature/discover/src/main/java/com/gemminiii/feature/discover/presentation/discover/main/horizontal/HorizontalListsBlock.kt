@@ -46,8 +46,14 @@ fun HorizontalListsBlock(
     // 1. Превращаем ключи Map в список, чтобы знать порядок страниц
     val modes = remember(movies) { listOf(HorizontalListsMode.SAVED, HorizontalListsMode.LIKED) }
 
+    val initialPage = remember(modes) {
+        modes.indexOf(HorizontalListsMode.LIKED).coerceAtLeast(0)
+    }
+
     // 2. pageCount = количество списков в Map
-    val pagerState = rememberPagerState(pageCount = { modes.size })
+    val pagerState = rememberPagerState(
+        initialPage = initialPage,
+        pageCount = { modes.size })
 
     Surface(
         modifier = modifier,

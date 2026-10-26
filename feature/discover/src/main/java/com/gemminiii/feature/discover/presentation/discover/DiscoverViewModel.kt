@@ -8,6 +8,7 @@ import com.gemminiii.core.domain.model.Movie
 import com.gemminiii.core.domain.usecase.DiscoverMovieUseCase
 import com.gemminiii.core.domain.usecase.SearchMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -124,8 +125,8 @@ class DiscoverViewModel @Inject constructor(
     private fun observeQuery(){
         viewModelScope.launch {
             _query
-                .debounce(700L)
-                .distinctUntilChanged()
+//                .debounce(700L)
+//                .distinctUntilChanged()
                 .collect { q ->
                     if(q.isBlank()){
                         loadMovies(DiscoverFilters(ratingFrom = 5.0, ratingTo = 10.0))
@@ -160,7 +161,8 @@ class DiscoverViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = DiscoverUiState.Loading
             try {
-                val movies = searchMovies(query)
+                delay(300)
+                val movies = searchMovies(query = query)
                 _state.value = if (movies.isEmpty()) {
                     DiscoverUiState.Empty
                 } else {

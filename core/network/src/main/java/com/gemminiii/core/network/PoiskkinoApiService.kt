@@ -22,7 +22,7 @@ interface PoiskkinoApiService {
     @GET("v1.5/movie/search")
     suspend fun searchMovies(
         @Query("query") query: String,
-        @Query("limit") limit: Int = 20
+        @Query("limit") limit: Int = 50
     ): MovieListResponse
 
     @GET("v1.5/movie/random")

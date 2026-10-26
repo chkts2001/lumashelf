@@ -23,7 +23,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchMovies(query: String): List<Movie> {
-        val response = api.searchMovies(query)
+        val response = api.searchMovies(query = query)
         return response.docs.map { it.toDomain() }
     }
 
