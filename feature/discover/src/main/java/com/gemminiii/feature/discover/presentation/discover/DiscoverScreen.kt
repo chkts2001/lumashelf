@@ -3,12 +3,16 @@ package com.gemminiii.feature.discover.presentation.discover
 import com.gemminiii.feature.discover.presentation.discover.main.MainContent
 import com.gemminiii.feature.discover.presentation.discover.search.SearchResultsGrid
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,7 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
+import androidx.core.R
 import com.gemminiii.core.domain.model.DiscoverFilters
+import com.gemminiii.core.ui.component.used.SearchField
 import com.gemminiii.feature.discover.presentation.discover.main.random.RandomMovieViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,44 +55,10 @@ fun DiscoverScreen(
 
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             val interactionSource = remember { MutableInteractionSource() }
-
-            BasicTextField(
-                value = query,
+            SearchField(
+                query = query,
                 onValueChange = viewModel::onQueryChange,
-                singleLine = true,
-                textStyle = MaterialTheme.typography.headlineSmall.copy(
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
-                ),
-                interactionSource = interactionSource,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .background(Color.Green.copy(alpha = 0.2f), RoundedCornerShape(12.dp)),
-                decorationBox = { innerTextField ->
-                    TextFieldDefaults.DecorationBox(
-                        value = query,
-                        innerTextField = innerTextField,
-                        enabled = true,
-                        singleLine = true,
-                        visualTransformation = VisualTransformation.None,
-                        interactionSource = interactionSource,
-                        // 🔽 Здесь задаём маленькие внутренние отступы
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                        placeholder = {
-                            Text(
-                                text = "Поищем?",
-                                style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp)
-                            )
-                        },
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent
-                        )
-                    )
-                }
+                interactionSource = interactionSource
             )
             if(query.isBlank()) {
                 MainContent(
