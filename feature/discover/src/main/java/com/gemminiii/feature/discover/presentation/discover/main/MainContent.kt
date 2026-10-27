@@ -45,7 +45,6 @@ fun MainContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1.1f) // фиксированная высота для горизонтального списка
-                .background(Color.Red.copy(alpha = 0.2f))
         ) {
             when (val currentState = state) {
                 is DiscoverUiState.Start -> {}
@@ -90,7 +89,7 @@ fun MainContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
-                .background(Color.Blue.copy(alpha = 0.2f))
+                //.background(Color.Blue.copy(alpha = 0.2f))
         )
     }
 }

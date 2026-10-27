@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -72,7 +73,6 @@ fun RandomMovieBlock(
                             modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Случайный фильм", style = MaterialTheme.typography.headlineSmall.copy(fontSize = 18.sp), modifier = Modifier.padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth(), textAlign = TextAlign.Start)
                             Box(
                                 modifier = Modifier.weight(1f),
                                 contentAlignment = Alignment.Center
@@ -81,7 +81,6 @@ fun RandomMovieBlock(
                                     movie = movies[page],
                                     onClick = { onMovieClick(movies[page].id) },
                                     modifier = Modifier.fillMaxWidth().wrapContentHeight()
-                                        .background(Color.Blue.copy(alpha = 0.2f))
                                 )
                             }
                         }
