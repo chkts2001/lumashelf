@@ -63,7 +63,7 @@ fun LittleMovieCard(
                             .fillMaxWidth(2f / 3f)
                             .aspectRatio(2f / 3f) // ← сначала высота
                             .clip(RoundedCornerShape(12.dp))
-                            .background(Color.Green.copy(alpha = 0.2f))
+                            //.background(Color.Green.copy(alpha = 0.2f))
                     )
                 }
             }

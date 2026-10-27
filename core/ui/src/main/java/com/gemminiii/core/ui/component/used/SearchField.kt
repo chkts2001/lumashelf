@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -87,7 +88,7 @@ fun SearchField(
             modifier = Modifier
                 .weight(1f)
                 .padding(8.dp)
-                .background(Color.Green.copy(alpha = 0.2f), RoundedCornerShape(12.dp)),
+                .background(color = Color.White.copy(alpha = 0.1f), shape = RoundedCornerShape(12.dp)),
             decorationBox = { innerTextField ->
                 TextFieldDefaults.DecorationBox(
                     value = query,

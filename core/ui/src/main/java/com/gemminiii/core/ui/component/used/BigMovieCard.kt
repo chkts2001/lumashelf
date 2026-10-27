@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.AnchoredDraggableDefaults
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
@@ -12,12 +13,17 @@ import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.gemminiii.core.domain.model.Movie
@@ -55,99 +62,134 @@ fun BigMovieCard(
     val density = LocalDensity.current
     val cardHeightDp = with(density) { cardHeightPx.toDp() }
 
-    // Высота блока в свёрнутом состоянии (видимая часть)
-    val collapsedHeight = 10.dp
-    //val collapsedHeightPx = with(density) { collapsedHeight.toPx() }
 
-    // Якоря:
-    // 0f — свёрнуто: блок сдвинут вниз так, что виден только верх (collapsedHeight)
-    // 1f — развёрнуто: блок сдвинут вверх до 0, перекрывает всю карточку
-    val collapsedHeightPx = infoBlockHeightPx // ← измеренная высота
-    val anchors = remember(cardHeightPx, collapsedHeightPx) {
-        DraggableAnchors {
-            0f at (cardHeightPx - collapsedHeightPx) // свёрнуто: виден только верх
-            1f at 0f // развёрнуто: перекрывает всю карточку
+        // Высота блока в свёрнутом состоянии (видимая часть)
+        val collapsedHeight = 10.dp
+
+
+
+        val collapsedHeightPx = infoBlockHeightPx
+        val anchors = remember(cardHeightPx, infoBlockHeightPx) {
+            if (cardHeightPx > 0f && infoBlockHeightPx > 0f) {
+                DraggableAnchors {
+                    0f at (cardHeightPx - infoBlockHeightPx)
+                    1f at (cardHeightPx / 6f)
+                }
+            } else {
+                DraggableAnchors { } // пустые, пока не измерено
+            }
         }
-    }
 
-    val state = remember(anchors) {
-        AnchoredDraggableState(
-            initialValue = 0f,
-            positionalThreshold = { distance -> distance * 0.5f },
-            velocityThreshold = { with(density) { 0.9f } },
-            snapAnimationSpec = tween(),
-            decayAnimationSpec = exponentialDecay()
+        val state = remember(anchors) {
+            AnchoredDraggableState(initialValue = 0f, anchors = DraggableAnchors {  })
+        }
+
+        LaunchedEffect(cardHeightPx, infoBlockHeightPx) {
+            if (cardHeightPx > 0f && infoBlockHeightPx > 0f) {
+                state.updateAnchors(
+                    DraggableAnchors {
+                        0f at (cardHeightPx - infoBlockHeightPx)
+                        1f at (cardHeightPx / 6f)
+                    }
+                )
+            }
+        }
+
+        val offsetY = with(density){
+            if (state.offset.isNaN()) 0.dp else state.offset.toDp()
+        }
+
+        val flingBehavior = AnchoredDraggableDefaults.flingBehavior<Float>(
+            state = state,
+            positionalThreshold = { distance -> distance * 0.2f },
+            animationSpec = tween(durationMillis = 600) // ← здесь задаём длительность
         )
-    }
 
-    // Обновляем якоря при изменении высоты карточки
-    LaunchedEffect(anchors) {
-        state.updateAnchors(anchors)
-    }
+        // Обновляем якоря при изменении высоты карточки
+        LaunchedEffect(anchors) {
+            state.updateAnchors(anchors)
+        }
 
-    Card(
-        modifier = modifier
-            .onSizeChanged { cardHeightPx = it.height.toFloat() }
-            .clickable { onClick() },
-        shape = RoundedCornerShape(0.dp)
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            // 1. Постер (фон)
-            Column {
-                Box(modifier = Modifier.fillMaxWidth().aspectRatio(0.92f)) {
-                    AsyncImage(
-                        model = movie.posterUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize().blur(20.dp)
-                    )
-                    Box(modifier = Modifier.padding(top = 10.dp).align(Alignment.TopCenter)) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(movie.posterUrl)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = movie.title,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .fillMaxWidth(1f / 1.705f)
-                                .aspectRatio(2f / 3f)
-                                .clip(RoundedCornerShape(12.dp))
-                        )
+        Card(
+            modifier = modifier
+                .onSizeChanged { cardHeightPx = it.height.toFloat() }
+                .clickable { onClick() },
+            shape = RoundedCornerShape(0.dp)
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                // 1. Постер (фон)
+                Column {
+                    Box(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                        Box(modifier = Modifier.fillMaxWidth().fillMaxHeight().aspectRatio(0.75f)) {
+                            AsyncImage(
+                                model = movie.posterUrl,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxSize().blur(20.dp)
+                            )
+                        }
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Box(modifier = Modifier.background(Color.Black.copy(alpha = 0.75f)).padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth()){
+                                Text("Случайный фильм", style = MaterialTheme.typography.headlineSmall.copy(fontSize = 18.sp), textAlign = TextAlign.Start)
+                            }
+                            Box(
+                                modifier = Modifier.padding(top = 10.dp).align(Alignment.CenterHorizontally)
+                            ) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalContext.current)
+                                        .data(movie.posterUrl)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = movie.title,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier
+                                        .fillMaxWidth(1f / 1.705f)
+                                        .aspectRatio(2f / 3f)
+                                        .clip(RoundedCornerShape(12.dp))
+                                )
+                            }
+                        }
                     }
                 }
-            }
 
-            // 2. Блок с информацией — высотой во всю карточку, но сдвинут вниз в свёрнутом состоянии
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .height(cardHeightDp) // ← высота = высоте карточки
-                    .offset(y = with(density) { state.offset.toDp() }) // ← сдвиг
-                    .anchoredDraggable(state, Orientation.Vertical)
-                    .background(
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
-                        RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-                    )
-            ) {
-                Column() {
-                    Box(
-                        modifier = Modifier
-                            .background(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f), shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                            .onSizeChanged { size -> infoBlockHeightPx = size.height.toFloat() }
-                    ) {
-                        BigCardShortInfoBlock(movie)
+                // 2. Блок с информацией — высотой во всю карточку, но сдвинут вниз в свёрнутом состоянии
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .height(cardHeightDp) // ← высота = высоте карточки
+                        .offset(y = offsetY) // ← сдвиг
+                        .anchoredDraggable<Float>(state = state, orientation = Orientation.Vertical, flingBehavior = flingBehavior)
+                        .background(
+                            MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                            RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                        )
+                ) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                                    shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                                )
+                                .onSizeChanged { size ->
+                                    infoBlockHeightPx = size.height.toFloat()
+                                }
+                        ) {
+                            BigCardShortInfoBlock(movie)
 
+                        }
+                        Box(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+                            Text(
+                                movie.description!!,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(6.dp)
+                                    .fillMaxWidth().padding(bottom = 100.dp),
+                                textAlign = TextAlign.Justify
+                            )
+                        }
                     }
-                    Text(
-                        movie.description!!,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(6.dp).fillMaxSize(),
-                        textAlign = TextAlign.Justify
-                    )
                 }
             }
         }
-    }
 }
