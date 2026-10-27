@@ -27,7 +27,8 @@ interface PoiskkinoApiService {
 
     @GET("v1.5/movie/random")
     suspend fun getRandomMovie(
-        @Query("rating.kp") rating: String? = null
+        @Query("rating.kp") rating: String? = null,
+        @Query("notNullFields") notNullFields: String? = "description"
     ): MovieDto
 }
 
