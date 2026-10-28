@@ -33,7 +33,7 @@ import com.gemminiii.core.domain.model.Movie
 fun BigCardShortInfoBlock(movie: Movie){
     BoxWithConstraints(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
         val parentWidth = maxWidth
-        Column(modifier = Modifier.padding(top = 10.dp)) {
+        Column(modifier = Modifier.padding(vertical = 15.dp)) {
             Spacer(
                 modifier = Modifier.fillMaxWidth(1f/7f).height(3.dp)
                     .align(alignment = Alignment.CenterHorizontally)

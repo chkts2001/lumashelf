@@ -9,6 +9,7 @@ import com.gemminiii.core.ui.theme.LumaShelfTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.gemminiii.lumashelf.ui.theme.LumashelfTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

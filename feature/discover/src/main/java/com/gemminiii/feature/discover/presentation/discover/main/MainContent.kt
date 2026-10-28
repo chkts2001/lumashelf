@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -89,6 +90,7 @@ fun MainContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f)
+                .background(color = Color(android.R.color.transparent), shape = RoundedCornerShape(12.dp))
                 //.background(Color.Blue.copy(alpha = 0.2f))
         )
     }

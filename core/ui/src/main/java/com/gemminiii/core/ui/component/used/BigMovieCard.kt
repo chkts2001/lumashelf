@@ -129,7 +129,7 @@ fun BigMovieCard(
                             )
                         }
                         Column(modifier = Modifier.fillMaxSize()) {
-                            Box(modifier = Modifier.background(Color.Black.copy(alpha = 0.75f)).padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth()){
+                            Box(modifier = Modifier.background(MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)).padding(vertical = 10.dp, horizontal = 8.dp).fillMaxWidth()){
                                 Text("Случайный фильм", style = MaterialTheme.typography.headlineSmall.copy(fontSize = 18.sp), textAlign = TextAlign.Start)
                             }
                             Box(
@@ -161,23 +161,18 @@ fun BigMovieCard(
                         .offset(y = offsetY) // ← сдвиг
                         .anchoredDraggable<Float>(state = state, orientation = Orientation.Vertical, flingBehavior = flingBehavior)
                         .background(
-                            MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                            MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
                             RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
                         )
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
                         Box(
                             modifier = Modifier
-                                .background(
-                                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                                    shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-                                )
                                 .onSizeChanged { size ->
                                     infoBlockHeightPx = size.height.toFloat()
                                 }
                         ) {
                             BigCardShortInfoBlock(movie)
-
                         }
                         Box(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {
                             Text(

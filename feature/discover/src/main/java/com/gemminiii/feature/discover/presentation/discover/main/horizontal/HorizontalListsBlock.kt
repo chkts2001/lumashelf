@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAbsoluteAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,10 +56,10 @@ fun HorizontalListsBlock(
         initialPage = initialPage,
         pageCount = { modes.size })
 
-    Surface(
-        modifier = modifier,
-        tonalElevation = 4.dp,
-        shape = RoundedCornerShape(12.dp)
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = Color(android.R.color.transparent)),
     ) {
         if (modes.isEmpty()) {
             // Если Map пустая — показываем заглушку (опционально)

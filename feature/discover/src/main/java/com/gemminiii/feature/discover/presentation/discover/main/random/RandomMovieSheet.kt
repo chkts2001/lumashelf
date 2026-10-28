@@ -41,11 +41,11 @@ fun RandomMovieBlock(
     onMovieClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface(
-        modifier = modifier.padding(8.dp),
-        tonalElevation = 4.dp,
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    Box(
+        modifier = modifier.padding(8.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(color = Color(android.R.color.transparent))
+    ){
         when (state) {
             is RandomMovieUiState.Idle -> {}
             is RandomMovieUiState.Loading -> {
@@ -59,46 +59,38 @@ fun RandomMovieBlock(
             is RandomMovieUiState.Success -> {
                 val movies = state.movie
                 val pagerState = rememberPagerState(pageCount = { movies.size })
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
+//                Column(
+//                    modifier = Modifier.fillMaxSize(),
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+                Box(){
                     HorizontalPager(
                         state = pagerState,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxSize(),
                         pageSpacing = 16.dp
                     ) { page ->
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Box(
-                                modifier = Modifier.weight(1f),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                BigMovieCard(
-                                    movie = movies[page],
-                                    onClick = { onMovieClick(movies[page].id) },
-                                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                        BigMovieCard(
+                            movie = movies[page],
+                            onClick = { onMovieClick(movies[page].id) },
+                            modifier = Modifier.fillMaxSize()
+                                .clip(RoundedCornerShape(12.dp))
+                        )
+                    }
+                    Box(modifier = Modifier.align(Alignment.BottomCenter).wrapContentHeight().fillMaxWidth()) {
+                        Row(Modifier.padding(vertical = 8.dp).align(Alignment.Center)) {
+                            repeat(movies.size) { page ->
+                                val selected = pagerState.currentPage == page
+                                Box(
+                                    Modifier
+                                        .padding(horizontal = 4.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            if (selected) MaterialTheme.colorScheme.onSurface
+                                            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
+                                        )
+                                        .size(if (selected) 8.dp else 6.dp)
                                 )
                             }
-                        }
-                    }
-
-                    Row(Modifier.padding(vertical = 8.dp)) {
-                        repeat(movies.size) { page ->
-                            val selected = pagerState.currentPage == page
-                            Box(
-                                Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        if (selected) MaterialTheme.colorScheme.onSurface
-                                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
-                                    )
-                                    .size(if (selected) 8.dp else 6.dp)
-                            )
                         }
                     }
                 }

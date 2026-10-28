@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,8 +40,8 @@ fun LittleMovieCard(
         modifier = modifier.clickable { onClick() },
         shape = RoundedCornerShape(12.dp)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) { // ← Column, не Row
-            Box(modifier = Modifier.fillMaxWidth().aspectRatio(1.13f)) {
+        Box(modifier = Modifier.fillMaxWidth()) { // ← Column, не Row
+            Box(modifier = Modifier.fillMaxSize()) {
                 // 1. Размытый фон (та же картинка)
                 AsyncImage(
                     model = movie.posterUrl,
@@ -48,42 +49,53 @@ fun LittleMovieCard(
                     contentScale = ContentScale.Crop, // Растягиваем, чтобы заполнить края
                     modifier = Modifier
 
-                        .aspectRatio(1.13f)
+                        .fillMaxSize()
                         .blur(20.dp) // ← Сила размытия
                 )
-                Box(modifier = Modifier.padding(14.dp).align(Alignment.TopCenter)) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(movie.posterUrl)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = movie.title,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .fillMaxWidth(2f / 3f)
-                            .aspectRatio(2f / 3f) // ← сначала высота
-                            .clip(RoundedCornerShape(12.dp))
-                            //.background(Color.Green.copy(alpha = 0.2f))
-                    )
-                }
             }
-            Column(modifier = Modifier.padding(top = 6.dp, start = 8.dp, end = 8.dp, bottom = 8.dp).wrapContentHeight()) { // ← текст под постером
-                Text(
-                    text = movie.title,
-                    style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    //modifier = Modifier.weight(1f)
+            Box(modifier = Modifier.aspectRatio(0.7f).align(Alignment.TopCenter)) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(movie.posterUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = movie.title,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(8.dp)
+                        .fillMaxWidth(2f / 3f)
+                        .aspectRatio(2f / 3f) // ← сначала высота
+                        .clip(RoundedCornerShape(12.dp))
+                    //.background(Color.Green.copy(alpha = 0.2f))
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "${movie.genres.firstOrNull() ?: "-"}",//.take(2).joinToString(separator = " · "),
-                    style = MaterialTheme.typography.bodySmall,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                LittleCardShortInfoBlock(movie)
+            }
+            Box(  modifier = Modifier.fillMaxWidth().wrapContentHeight().background(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)).padding(
+                top = 6.dp,
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 8.dp
+            ).align(Alignment.BottomCenter)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                ) { // ← текст под постером
+                    Text(
+                        text = movie.title,
+                        style = MaterialTheme.typography.titleSmall.copy(fontSize = 12.sp),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        //modifier = Modifier.weight(1f)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "${movie.genres.firstOrNull() ?: "-"}",//.take(2).joinToString(separator = " · "),
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    LittleCardShortInfoBlock(movie)
+                }
             }
         }
     }
